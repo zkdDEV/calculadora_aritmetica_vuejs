@@ -1,47 +1,85 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { reactive } from 'vue';
+
+const estado = reactive({
+  tipo: 'adicao',
+  primeiroNumero: 0, 
+  segundoNumero: 0,
+  resultado: 0,
+  mensagemDeErro: 'Essa opção não está registrada, por favor, reinicie o site'
+})
+
+function fazConta()
+{
+  switch(estado.tipo)
+  {
+    case 'adicao':
+      return estado.resultado = estado.primeiroNumero + estado.segundoNumero
+
+    case 'subtracao':
+      return estado.resultado = estado.primeiroNumero - estado.segundoNumero
+
+    case 'multiplicacao':
+      return estado.resultado = estado.primeiroNumero * estado.segundoNumero
+
+    case 'divisao':
+      return estado.resultado = estado.primeiroNumero / estado.segundoNumero
+
+    default:
+      return estado.mensagemDeErro
+  }
+}
+
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="container">
+    <header class="p-5 mt-5 mb-5 bg-secondary rounded-5">
+      <h1 class="text-center text-light">Calculadora Aritmética</h1>
+    </header>
+    <form>
+      <div class="row">
+        <div class="col-md-5 text-center">
+          <input @keyup="evento => estado.primeiroNumero = evento.target.value" type="number" placeholder="Digite um número">
+        </div>
+        <div class="col-md-3">
+          <select @change="evento => estado.tipo = evento.target.value" class="text-center p-2">
+            <option value="adicao">+ Adição +</option>
+            <option value="subtracao">- Subtração -</option>
+            <option value="multiplicacao">x Multiplicação x</option>
+            <option value="divisao">/ Divisão /</option>
+          </select>
+        </div>
+        <div class="col-md-4 text-center">
+          <input @keyup="evento => estado.segundoNumero = evento.target.value" type="number" placeholder="Digite um número">
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col text-center pt-5">
+        <h1>
+          {{ fazConta() }}
+        </h1>
+      </div>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+  h1
+  {
+    font-size: 100px;
   }
-
-  .logo {
-    margin: 0 2rem 0 0;
+  input
+  {
+    border-radius: 10px;
+    font-size: 2em;
+    border: 5px solid black;
   }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  select
+  {
+    font-size: 32px;
+    border-radius: 10px;
+    border: 3px solid black;
   }
-}
 </style>
