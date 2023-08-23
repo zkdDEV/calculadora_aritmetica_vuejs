@@ -5,25 +5,35 @@ const estado = reactive({
   tipo: 'adicao',
   primeiroNumero: 0, 
   segundoNumero: 0,
-  resultado: 0,
   mensagemDeErro: 'Essa opção não está registrada, por favor, reinicie o site'
 })
 
+function checagem()
+{
+  if(parseInt(estado.primeiroNumero) || parseInt(estado.segundoNumero) === NaN || Infinity)
+  {
+    return Math.max(estado.primeiroNumero, estado.segundoNumero)
+  }
+  else
+  {
+    return 0
+  }
+}
 function fazConta()
 {
   switch(estado.tipo)
   {
     case 'adicao':
-      return estado.resultado = estado.primeiroNumero + estado.segundoNumero
+      return checagem(), parseInt(estado.primeiroNumero) + parseInt(estado.segundoNumero)
 
     case 'subtracao':
-      return estado.resultado = estado.primeiroNumero - estado.segundoNumero
+      return checagem(), parseInt(estado.primeiroNumero) - parseInt(estado.segundoNumero)
 
     case 'multiplicacao':
-      return estado.resultado = estado.primeiroNumero * estado.segundoNumero
+      return checagem(), parseInt(estado.primeiroNumero) * parseInt(estado.segundoNumero)
 
     case 'divisao':
-      return estado.resultado = estado.primeiroNumero / estado.segundoNumero
+      return checagem(), parseInt(estado.primeiroNumero) / parseInt(estado.segundoNumero)
 
     default:
       return estado.mensagemDeErro
